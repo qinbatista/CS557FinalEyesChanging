@@ -364,20 +364,21 @@ void Display()
     glEnable(GL_NORMALIZE);
 
     float updateValue = sin(M_PI * Time);
+    float SingleController = updateValue;
+    updateValue = 0;
     // enable the shader:
     S0 = 0.5f;
     T0 = 0.5f;
     D = 0.1f;
-    // updateValue = 0;
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_3D, TexName);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     Pattern->Use();
-    Pattern->SetUniformVariable("uAlpha", 1.f * (float)sin(0.2 * M_PI * Time));
+    Pattern->SetUniformVariable("uAlpha", 1.f * (float)sin(0.2 * M_PI * updateValue));
     Pattern->SetUniformVariable("uTexUnit", 3);
-    Pattern->SetUniformVariable("uNoiseFreq", 1.f * (float)sin(0.2 * M_PI * Time));
-    Pattern->SetUniformVariable("uNoiseMag", 1.f * (float)sin(0.2 * M_PI * Time));
+    Pattern->SetUniformVariable("uNoiseFreq", 1.f * (float)sin(0.2 * M_PI * updateValue));
+    Pattern->SetUniformVariable("uNoiseMag", 1.f * (float)sin(0.2 * M_PI * updateValue));
     Pattern->SetUniformVariable((char *)"uKa", 0.5f);
     Pattern->SetUniformVariable((char *)"uKd", 0.9f);
     Pattern->SetUniformVariable((char *)"uKs", 0.9f);
@@ -386,10 +387,10 @@ void Display()
     Pattern->SetUniformVariable((char *)"uT0", T0);
     Pattern->SetUniformVariable((char *)"uD", D * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTime", Time);
-    Pattern->SetUniformVariable((char *)"diam", 0.2f * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"diam", 0.2f);
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
-    Pattern->SetUniformVariable((char *)"uTol", 0.005f * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"uTol", 0.05f);
     glPushMatrix();
     glRotatef(90.,1., 0., 0.);
     glTranslatef(-1, 0, 0.);
@@ -401,7 +402,6 @@ void Display()
     S0 = 0.5f;
     T0 = 0.5f;
     D = 0.1f;
-    // updateValue = 0;
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_3D, TexName);
     glEnable(GL_BLEND);
@@ -419,10 +419,10 @@ void Display()
     Pattern->SetUniformVariable((char *)"uT0", T0);
     Pattern->SetUniformVariable((char *)"uD", D * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTime", Time);
-    Pattern->SetUniformVariable((char *)"diam", 0.2f * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"diam", 0.2f);
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
-    Pattern->SetUniformVariable((char *)"uTol", 0.005f * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"uTol", 0.05f);
     glPushMatrix();
     glRotatef(90.,1., 0., 0.);
     glTranslatef(1., 0, 0.);
