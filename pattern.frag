@@ -19,7 +19,7 @@ void main() {
     vec3 Eye = normalize(vE);
 
     vec3 SpecularColor = vec3(1., 1., 1.);
-    vec3 myColor = vec3(1.0, 1, 1);
+    vec3 myColor = vec3(0.63921, 0.5607, 0.7254);
     vec3 myPatternColor = vec3(0, 0, 0);
 
     vec4 nv = texture3D(Noise3, uNoiseFreq * vMCposition);
@@ -39,13 +39,16 @@ void main() {
 	// int value = numint / 2;
 	// int remain = numint - value * 2;
 	// if(remain == 1) {
-    if(vST.s < numins * diam)
-    {
-        myColor = mix(myPatternColor, myColor, 0.1);
+    if(vST.t > 0.95) {
+        myColor = myPatternColor;
+    } else {
+        myColor = myColor;
     }
-    else
-    {
-        myColor = SpecularColor;
+
+    if(0.97 < sin(16.5*vST.t*3.14)) {
+        myColor = myPatternColor;
+    } else {
+        myColor = myColor;
     }
 	// 		numins = numins - 1;
 	// 	}
@@ -87,6 +90,6 @@ void main() {
     // if(Dist <= (R + uTol)) {
     //     gl_FragColor = vec4(ambient + diffuse + specular, 1);
     // } else {
-    //     gl_FragColor = vec4(ambient + diffuse + specular, 1);
+    gl_FragColor = vec4(ambient + diffuse + specular, 1);
     // }
 }
