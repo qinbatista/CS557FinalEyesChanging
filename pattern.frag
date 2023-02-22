@@ -19,8 +19,9 @@ void main() {
     vec3 Eye = normalize(vE);
 
     vec3 SpecularColor = vec3(1., 1., 1.);
-    vec3 myColor = vec3(0.63921, 0.5607, 0.7254);
-    vec3 myPatternColor = vec3(0, 0, 0);
+    vec3 EyeColor = vec3(0.63921, 0.5607, 0.7254);
+    vec3 CenterColor = vec3(0.3476, 0.25, 0.5859);
+    vec3 EyeBlack = vec3(0, 0, 0);
 
     vec4 nv = texture3D(Noise3, uNoiseFreq * vMCposition);
     float n = nv.r + nv.g + nv.b + nv.a; //rangeis1.->3.
@@ -39,19 +40,26 @@ void main() {
 	// int value = numint / 2;
 	// int remain = numint - value * 2;
 	// if(remain == 1) {
-    if(vST.t > 0.95) {
-        myColor = myPatternColor;
+    if(0.97 > sin(16.5 * vST.t * 3.14)&&vST.t>0.88) {
+        EyeColor = CenterColor;
+    }
+    else
+    {
+        EyeColor = EyeColor;
+    }
+    if(vST.t > 0.97) {
+        EyeColor = EyeBlack;
     } else {
-        myColor = myColor;
+        EyeColor = EyeColor;
     }
 
-    if(0.97 < sin(16.5*vST.t*3.14)) {
-        myColor = myPatternColor;
+    if(0.97 < sin(16.5 * vST.t * 3.14)) {
+        EyeColor = EyeBlack;
     } else {
-        myColor = myColor;
+        EyeColor = EyeColor;
     }
-	// 		numins = numins - 1;
-	// 	}
+			// numins = numins - 1;
+		// }
 	// 	sc = numins * diam + R + R;
 	// 	tc = numint * diam + R;
 	// 	X = (vST.s - sc);
@@ -75,10 +83,10 @@ void main() {
 		// }
 	// }
 
-    vec3 ambient = uKa * myColor;
+    vec3 ambient = uKa * EyeColor;
 
     float d = max(dot(Normal, Light), 0.);       // only do diffuse if the light can see the point
-    vec3 diffuse = uKd * d * myColor;
+    vec3 diffuse = uKd * d * EyeColor;
 
     float s = 0.;
     if(dot(Normal, Light) > 0.)	          // only do specular if the light can see the point
