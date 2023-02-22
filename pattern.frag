@@ -41,7 +41,7 @@ void main() {
 	// int value = numint / 2;
 	// int remain = numint - value * 2;
 	// if(remain == 1) {
-    if(0.97 > sin(16.5 * vST.t * 3.14)&&vST.t>0.88) {
+    if(0.97 > sin(EyeFrequency * vST.t * 3.14)&&vST.t>0.88*EyeFrequency/16.5f) {
         EyeColor = CenterColor;
     }
     else
@@ -54,7 +54,7 @@ void main() {
         EyeColor = EyeColor;
     }
 
-    if(0.97 < sin(16.5 * vST.t * 3.14)) {
+    if(0.97 < sin(EyeFrequency * vST.t * 3.14)) {
         EyeColor = EyeBlack;
     } else {
         EyeColor = EyeColor;

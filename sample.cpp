@@ -391,7 +391,7 @@ void Display()
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTol", 0.05f);
-    Pattern->SetUniformVariable((char *)"EyeFrequency", 15 * SingleController);
+    Pattern->SetUniformVariable((char *)"EyeFrequency", 16.5f* SingleController);
     glPushMatrix();
     glRotatef(90., 1., 0., 0.);
     glTranslatef(-1, 0, 0.);
@@ -424,7 +424,7 @@ void Display()
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTol", 0.05f);
-    Pattern->SetUniformVariable((char *)"EyeFrequency", 15 * SingleController);
+    Pattern->SetUniformVariable((char *)"EyeFrequency", 16.5f * SingleController);
     glPushMatrix();
     glRotatef(90., 1., 0., 0.);
     glTranslatef(1., 0, 0.);
