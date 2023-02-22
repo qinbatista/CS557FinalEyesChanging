@@ -169,8 +169,8 @@ float D;        // square dimensions
 bool Freeze;
 GLuint SphereList1; // object display list
 GLuint SphereList2; // object display list
-GLuint Eyebrow1;     // object display list
-GLuint Eyebrow2;     // object display list
+GLuint Eyebrow1;    // object display list
+GLuint Eyebrow2;    // object display list
 int MainWindow;     // window id for main graphics window
 GLSLProgram *Pattern;
 float S0, T0;
@@ -391,8 +391,9 @@ void Display()
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTol", 0.05f);
+    Pattern->SetUniformVariable((char *)"EyeFrequency", 15 * SingleController);
     glPushMatrix();
-    glRotatef(90.,1., 0., 0.);
+    glRotatef(90., 1., 0., 0.);
     glTranslatef(-1, 0, 0.);
     glScalef(0.5, 0.5, 0.5);
     glCallList(SphereList1);
@@ -423,17 +424,17 @@ void Display()
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTol", 0.05f);
+    Pattern->SetUniformVariable((char *)"EyeFrequency", 15 * SingleController);
     glPushMatrix();
-    glRotatef(90.,1., 0., 0.);
+    glRotatef(90., 1., 0., 0.);
     glTranslatef(1., 0, 0.);
     glScalef(0.5, 0.5, 0.5);
     glCallList(SphereList2);
     glPopMatrix();
     Pattern->Use(0);
 
-
     glPushMatrix();
-    glRotatef(-15.,0., 0., 1.);
+    glRotatef(-15., 0., 0., 1.);
     glTranslatef(-1.5, -1.4, 0.5);
     glScalef(1., 1., 1.);
     glColor3f(0.5, 0.5, 0.5);
@@ -441,8 +442,8 @@ void Display()
     glPopMatrix();
 
     glPushMatrix();
-    glRotatef(15.,0., 0., 1.);
-    glRotatef(180,0., 1., 0.);
+    glRotatef(15., 0., 0., 1.);
+    glRotatef(180, 0., 1., 0.);
     glTranslatef(-1.5, -1.4, -0.5);
     glScalef(1., 1., 1.);
     glColor3f(0.5, 0.5, 0.5);
@@ -795,7 +796,6 @@ void InitLists()
     glVertex2f(1.0f, 1.3f);
     glEnd();
     glEndList();
-
 
     // eye brow
     Eyebrow2 = glGenLists(1);

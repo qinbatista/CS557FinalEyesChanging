@@ -12,6 +12,7 @@ uniform sampler3D Noise3;
 uniform float uNoiseFreq, uNoiseMag;
 varying vec3 vMCposition;
 uniform float uAlpha;			// vector from point to eye
+uniform float EyeFrequency;			// vector from point to eye
 void main() {
 
     vec3 Normal = normalize(vN);
