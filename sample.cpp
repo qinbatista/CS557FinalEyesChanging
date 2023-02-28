@@ -272,7 +272,11 @@ void Animate()
 }
 
 // draw the complete scene:
-
+float SingleController = 0;
+float xlyChanging = 1;
+bool stopDisplay = false;
+bool xlyEyeStart = false;
+GLuint Quad;      // list to hold the axes
 void Display()
 {
     if (DebugOn != 0)
@@ -364,8 +368,22 @@ void Display()
     glEnable(GL_NORMALIZE);
 
     float updateValue = sin(M_PI * Time);
-    float SingleController = updateValue;
-    updateValue = 0;
+    if(!stopDisplay&&xlyEyeStart)
+        SingleController = SingleController + 0.003;
+        // SingleController = SingleController;
+    if(SingleController>=1.0)
+    {
+        stopDisplay = true;
+        SingleController = 1.0;
+    }
+
+
+    xlyChanging = xlyChanging - 0.005;
+    if(xlyChanging<=0)
+    {
+        xlyChanging = 0;
+        xlyEyeStart = true;
+    }
     // enable the shader:
     S0 = 0.5f;
     T0 = 0.5f;
@@ -391,7 +409,8 @@ void Display()
     Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
     Pattern->SetUniformVariable((char *)"uTol", 0.05f);
-    Pattern->SetUniformVariable((char *)"EyeFrequency", 16.5f* SingleController);
+    Pattern->SetUniformVariable((char *)"EyeFrequency", 16.5f * SingleController);
+    Pattern->SetUniformVariable((char *)"xlyChanging", xlyChanging);
     glPushMatrix();
     glRotatef(90., 1., 0., 0.);
     glTranslatef(-1, 0, 0.);
@@ -432,6 +451,41 @@ void Display()
     glCallList(SphereList2);
     glPopMatrix();
     Pattern->Use(0);
+
+
+    S0 = 0.5f;
+    T0 = 0.5f;
+    D = 0.1f;
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_3D, TexName);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    Pattern->Use();
+    Pattern->SetUniformVariable("uAlpha", 1.f * (float)sin(0.2 * M_PI * Time));
+    Pattern->SetUniformVariable("uTexUnit", 3);
+    Pattern->SetUniformVariable("uNoiseFreq", 1.f * (float)sin(0.2 * M_PI * Time));
+    Pattern->SetUniformVariable("uNoiseMag", 1.f * (float)sin(0.2 * M_PI * Time));
+    Pattern->SetUniformVariable((char *)"uKa", 0.5f);
+    Pattern->SetUniformVariable((char *)"uKd", 0.9f);
+    Pattern->SetUniformVariable((char *)"uKs", 0.9f);
+    Pattern->SetUniformVariable((char *)"uShininess", 8.f);
+    Pattern->SetUniformVariable((char *)"uS0", S0);
+    Pattern->SetUniformVariable((char *)"uT0", T0);
+    Pattern->SetUniformVariable((char *)"uD", D * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"uTime", Time);
+    Pattern->SetUniformVariable((char *)"diam", 0.2f);
+    Pattern->SetUniformVariable((char *)"Ar", 0.7f + 0.3f * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"Br", 0.3f + 0.7f * (float)(.5 + .5 * updateValue));
+    Pattern->SetUniformVariable((char *)"uTol", 0.05f);
+    Pattern->SetUniformVariable((char *)"EyeFrequency", 16.5f * SingleController);
+    glPushMatrix();
+    glRotatef(90., 1., 0., 0.);
+    glTranslatef(1., 0, 0.);
+    glScalef(0.5, 0.5, 0.5);
+    glCallList(Quad);
+    glPopMatrix();
+    Pattern->Use(0);
+
 
     glPushMatrix();
     glRotatef(-15., 0., 0., 1.);
@@ -812,6 +866,24 @@ void InitLists()
 
     glTexCoord2f(1.0f, 0.0f);
     glVertex2f(1.0f, 1.3f);
+    glEnd();
+    glEndList();
+
+
+    Quad = glGenLists(1);
+    glNewList(Quad, GL_COMPILE);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex2f(-2.0f, -2.0f);
+
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex2f(-2.0f, 2.0f);
+
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex2f(2.0f, 2.0f);
+
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex2f(2.0f, -2.0f);
     glEnd();
     glEndList();
     // LoadObjFile( "bunny010n.obj" );
